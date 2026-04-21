@@ -4,6 +4,8 @@ const fs = require("fs/promises");
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
 program
     .requiredOption("-h, --host <host>", "server address")
@@ -29,6 +31,8 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 async function main() {
     try {
